@@ -7,8 +7,8 @@ router.post('/', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Find the user by username
-    const user = await User.findOne({ username });
+    // Find the user by username in the 'Users' collection
+    const user = await User.findOne({ username }).lean();
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });

@@ -17,9 +17,12 @@ db.once('open', () => {
 // Middleware for parsing JSON data
 app.use(express.json());
 
-// Define routes for registration and login (You'll need to create controllers for these)
+// User account routes
 app.use('/api/register', require('./routes/register'));
 app.use('/api/login', require('./routes/login'));
+
+// Inventory Routes
+app.use('/api/inventory', require('./routes/inventory'));
 
 // Start the server
 const PORT = process.env.PORT || 3000;

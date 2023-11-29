@@ -2,6 +2,7 @@ const loginPage = document.getElementById('loginPage');
 const registerPage = document.getElementById('registerPage');
 const dashboard = document.getElementById('dashboard');
 const userInfo = document.getElementById('userInfo');
+const inventoryItems = document.getElementById('inventoryItems');
 
 function showRegister() {
   loginPage.style.display = 'none';
@@ -32,6 +33,21 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       loginPage.style.display = 'none';
       dashboard.style.display = 'block';
       userInfo.innerHTML = `<p>Logged in as: ${data.user.username}</p>`;
+      
+      // Fetch inventory items from API
+      const inventoryResponse = await fetch('http://localhost:3000/api/inventory');
+      const inventoryData = await inventoryResponse.json();
+      
+      // Display inventory items as buttons
+      inventoryData.forEach(item => {
+        const button = document.createElement('button');
+        button.textContent = `${item.name} - ${item.category} - $${item.price}`;
+        button.addEventListener('click', () => {
+          // Handle button click, you can perform actions with the item data
+          console.log(item); // Example: Log item details to console
+        });
+        inventoryItems.appendChild(button);
+      });
     } else {
       alert(data.message);
     }
@@ -73,4 +89,5 @@ function logout() {
   dashboard.style.display = 'none';
   loginPage.style.display = 'block';
   userInfo.innerHTML = '';
+  inventoryItems.innerHTML = ''; // Clear inventory items when logging out
 }
